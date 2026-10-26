@@ -1,0 +1,9 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# Cualquier ruta desconocida sirve la app en lugar de la página 404 de Netlify
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
