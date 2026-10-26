@@ -36,10 +36,14 @@ function render(): void {
   renderTransactionList(listEl, sortByDateDesc(visible))
 }
 
-setupTransactionForm(formEl, (transaction) => {
-  repository.add({ ...transaction, id: crypto.randomUUID() })
-  render()
-})
+setupTransactionForm(
+  formEl,
+  (transaction) => {
+    repository.add({ ...transaction, id: crypto.randomUUID() })
+    render()
+  },
+  () => repository.getAll(),
+)
 
 onDeleteClick(listEl, (id) => {
   repository.remove(id)

@@ -9,6 +9,7 @@ Aplicación web para registrar ingresos y gastos personales, ver el balance y an
 ## Funcionalidades
 
 - Registrar ingresos y gastos con categoría, monto y fecha
+- **Categorización automática**: sugiere la categoría mientras escribís y aprende de tus elecciones
 - Balance de ingresos, gastos y saldo
 - Desglose de gastos por categoría
 - Filtros por tipo y por mes
@@ -30,6 +31,7 @@ Aplicación web para registrar ingresos y gastos personales, ver el balance y an
 - **Repositorio genérico** (`Repository<T>`) desacoplado de `localStorage`; se inyecta el almacenamiento, así es testeable y fácil de cambiar por una API o IndexedDB.
 - **Datos persistidos validados al leer** con un *type guard*, para que datos corruptos no rompan la app.
 - **Sin `innerHTML` con datos del usuario**: el DOM se construye con nodos de texto, lo que previene XSS.
+- **Categorizador sin dependencias ni servidor**: primero busca la descripción en el historial del usuario (así aprende de sus correcciones) y después en un diccionario de palabras clave. Normaliza tildes y mayúsculas, prioriza la coincidencia más específica ("uber eats" le gana a "uber") y exige palabra completa en las claves cortas ("gas" no coincide con "gastos").
 - **Lógica de negocio en funciones puras** (`services/`), separada de la UI y cubierta por tests.
 
 ## Estructura

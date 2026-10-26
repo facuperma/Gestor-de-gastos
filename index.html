@@ -77,13 +77,14 @@
           <div class="form__row">
             <label class="field">
               <span class="field__label">Categoría</span>
-              <select name="category"></select>
+              <select name="category" aria-describedby="category-hint"></select>
             </label>
             <label class="field">
               <span class="field__label">Fecha</span>
               <input name="date" type="date" required />
             </label>
           </div>
+          <p id="category-hint" class="suggestion-hint" aria-live="polite" hidden></p>
 
           <ul class="form-errors" role="alert" aria-live="polite"></ul>
           <button type="submit" class="button">Agregar transacción</button>

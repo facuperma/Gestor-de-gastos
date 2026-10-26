@@ -473,6 +473,33 @@ input, select, button {
   outline-offset: 1px;
 }
 
+/* Sugerencia automática de categoría */
+.field select.is-suggested {
+  border-color: color-mix(in srgb, var(--primary) 55%, var(--border));
+  background: color-mix(in srgb, var(--primary) 8%, var(--surface-2));
+}
+
+.suggestion-hint {
+  margin-top: -0.4rem;
+  padding: 0.45rem 0.75rem;
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--primary) 10%, transparent);
+  color: var(--primary);
+  font-size: 0.8rem;
+  animation: hint-in 0.2s ease-out;
+}
+
+.suggestion-hint[hidden] {
+  display: none;
+}
+
+@keyframes hint-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
 .form-errors {
   display: grid;
   gap: 0.2rem;
@@ -758,5 +785,6 @@ input, select, button {
 @media (prefers-reduced-motion: reduce) {
   * {
     transition: none !important;
+    animation: none !important;
   }
 }
