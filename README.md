@@ -1,4 +1,4 @@
-# Gestor de gastos
+# Wallet Tracker
 
 Aplicación web para registrar ingresos y gastos personales, ver el balance y analizar en qué se va la plata. Hecha con **TypeScript, HTML y CSS**, sin frameworks.
 
