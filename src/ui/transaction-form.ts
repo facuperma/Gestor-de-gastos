@@ -1,7 +1,8 @@
-import { categoriesFor, type NewTransaction, type TransactionType } from '../models/transaction.ts'
+import { CATEGORY_INFO, categoriesFor } from '../models/categories.ts'
+import type { NewTransaction, TransactionType } from '../models/transaction.ts'
 import { parseTransactionForm } from '../services/validation.ts'
 import { todayISO } from '../utils/format.ts'
-import { capitalize, el, getElement } from './dom.ts'
+import { el, getElement } from './dom.ts'
 
 export function setupTransactionForm(
   form: HTMLFormElement,
@@ -15,7 +16,9 @@ export function setupTransactionForm(
 
   const fillCategories = () => {
     categorySelect.replaceChildren(
-      ...categoriesFor(currentType()).map((c) => el('option', { value: c, textContent: capitalize(c) })),
+      ...categoriesFor(currentType()).map((c) =>
+        el('option', { value: c, textContent: `${CATEGORY_INFO[c].icon}  ${CATEGORY_INFO[c].label}` }),
+      ),
     )
   }
 

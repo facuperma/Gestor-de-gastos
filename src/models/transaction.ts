@@ -1,17 +1,5 @@
-export const EXPENSE_CATEGORIES = [
-  'comida',
-  'transporte',
-  'vivienda',
-  'servicios',
-  'ocio',
-  'salud',
-  'otros',
-] as const
+import { categoriesFor, type ExpenseCategory, type IncomeCategory } from './categories.ts'
 
-export const INCOME_CATEGORIES = ['sueldo', 'freelance', 'inversiones', 'otros'] as const
-
-export type ExpenseCategory = (typeof EXPENSE_CATEGORIES)[number]
-export type IncomeCategory = (typeof INCOME_CATEGORIES)[number]
 export type TransactionType = 'income' | 'expense'
 
 interface BaseTransaction {
@@ -39,10 +27,6 @@ export type Transaction = Income | Expense
 /** Datos de una transacción antes de persistirla (sin id). */
 export type NewTransaction = Omit<Income, 'id'> | Omit<Expense, 'id'>
 
-export function categoriesFor(type: TransactionType): readonly string[] {
-  return type === 'income' ? INCOME_CATEGORIES : EXPENSE_CATEGORIES
-}
-
 export function isTransaction(value: unknown): value is Transaction {
   if (typeof value !== 'object' || value === null) return false
   const t = value as Record<string, unknown>
@@ -52,6 +36,6 @@ export function isTransaction(value: unknown): value is Transaction {
     Number.isInteger(t.amountCents) &&
     typeof t.date === 'string' &&
     (t.type === 'income' || t.type === 'expense') &&
-    categoriesFor(t.type).includes(t.category as string)
+    (categoriesFor(t.type) as readonly unknown[]).includes(t.category)
   )
 }

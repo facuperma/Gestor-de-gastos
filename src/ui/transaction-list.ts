@@ -1,6 +1,7 @@
+import { CATEGORY_INFO } from '../models/categories.ts'
 import type { Transaction } from '../models/transaction.ts'
 import { formatCurrency, formatDate } from '../utils/format.ts'
-import { capitalize, el } from './dom.ts'
+import { el } from './dom.ts'
 
 // Ícono estático (no contiene datos del usuario), por eso es seguro usar innerHTML.
 const TRASH_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>`
@@ -27,13 +28,14 @@ export function renderTransactionList(container: HTMLElement, transactions: Tran
     })
     deleteButton.innerHTML = TRASH_ICON
 
-    return el('li', { className: `transaction transaction--${t.type}`, dataset: { category: t.category } }, [
-      el('span', { className: 'transaction__avatar', textContent: t.category.charAt(0).toUpperCase(), ariaHidden: 'true' }),
+    const { label, icon, color } = CATEGORY_INFO[t.category]
+    const item = el('li', { className: `transaction transaction--${t.type}` }, [
+      el('span', { className: 'transaction__avatar', textContent: icon, ariaHidden: 'true' }),
       el('div', { className: 'transaction__info' }, [
         el('span', { className: 'transaction__description', textContent: t.description }),
         el('span', {
           className: 'transaction__meta',
-          textContent: `${capitalize(t.category)} · ${formatDate(t.date)}`,
+          textContent: `${label} · ${formatDate(t.date)}`,
         }),
       ]),
       el('span', {
@@ -42,6 +44,8 @@ export function renderTransactionList(container: HTMLElement, transactions: Tran
       }),
       deleteButton,
     ])
+    item.style.setProperty('--cat', color)
+    return item
   })
 
   container.replaceChildren(el('ul', { className: 'transactions' }, items))

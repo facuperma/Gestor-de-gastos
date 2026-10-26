@@ -1,6 +1,7 @@
+import { CATEGORY_INFO, type ExpenseCategory } from '../models/categories.ts'
 import type { Balance } from '../services/transactions.ts'
 import { formatCurrency } from '../utils/format.ts'
-import { capitalize, el } from './dom.ts'
+import { el } from './dom.ts'
 
 export function renderBalance(container: HTMLElement, balance: Balance): void {
   const savingsRate =
@@ -34,7 +35,7 @@ export function renderBalance(container: HTMLElement, balance: Balance): void {
 }
 
 /** Gráfico de dona hecho solo con CSS (`conic-gradient`) más su leyenda. */
-export function renderCategories(container: HTMLElement, byCategory: [string, number][]): void {
+export function renderCategories(container: HTMLElement, byCategory: [ExpenseCategory, number][]): void {
   if (byCategory.length === 0) {
     container.replaceChildren(
       el('p', { className: 'empty', textContent: 'Todavía no hay gastos para analizar.' }),
@@ -46,7 +47,7 @@ export function renderCategories(container: HTMLElement, byCategory: [string, nu
   let start = 0
   const segments = byCategory.map(([category, cents]) => {
     const end = start + (cents / total) * 100
-    const segment = `var(--cat-${category}) ${start}% ${end}%`
+    const segment = `${CATEGORY_INFO[category].color} ${start}% ${end}%`
     start = end
     return segment
   })
@@ -62,14 +63,17 @@ export function renderCategories(container: HTMLElement, byCategory: [string, nu
   const legend = el(
     'ul',
     { className: 'legend' },
-    byCategory.map(([category, cents]) =>
-      el('li', { className: 'legend__item', dataset: { category } }, [
+    byCategory.map(([category, cents]) => {
+      const { label, icon, color } = CATEGORY_INFO[category]
+      const item = el('li', { className: 'legend__item' }, [
         el('span', { className: 'legend__dot', ariaHidden: 'true' }),
-        el('span', { className: 'legend__name', textContent: capitalize(category) }),
+        el('span', { className: 'legend__name', textContent: `${icon} ${label}` }),
         el('span', { className: 'legend__percent', textContent: `${Math.round((cents / total) * 100)}%` }),
         el('span', { className: 'legend__amount', textContent: formatCurrency(cents) }),
-      ]),
-    ),
+      ])
+      item.style.setProperty('--cat', color)
+      return item
+    }),
   )
 
   container.replaceChildren(el('div', { className: 'categories' }, [donut, legend]))

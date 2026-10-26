@@ -1,8 +1,5 @@
-import {
-  EXPENSE_CATEGORIES,
-  INCOME_CATEGORIES,
-  type NewTransaction,
-} from '../models/transaction.ts'
+import { EXPENSE_CATEGORIES, INCOME_CATEGORIES } from '../models/categories.ts'
+import type { NewTransaction } from '../models/transaction.ts'
 import { err, ok, type Result } from '../models/result.ts'
 import { parseAmountToCents } from '../utils/format.ts'
 

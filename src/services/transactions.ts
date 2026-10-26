@@ -1,3 +1,4 @@
+import type { ExpenseCategory } from '../models/categories.ts'
 import type { Transaction, TransactionType } from '../models/transaction.ts'
 
 export interface Balance {
@@ -23,8 +24,10 @@ export function getBalance(transactions: readonly Transaction[]): Balance {
 }
 
 /** Total gastado por categoría, ordenado de mayor a menor. */
-export function expensesByCategory(transactions: readonly Transaction[]): [string, number][] {
-  const totals = new Map<string, number>()
+export function expensesByCategory(
+  transactions: readonly Transaction[],
+): [ExpenseCategory, number][] {
+  const totals = new Map<ExpenseCategory, number>()
   for (const t of transactions) {
     if (t.type !== 'expense') continue
     totals.set(t.category, (totals.get(t.category) ?? 0) + t.amountCents)

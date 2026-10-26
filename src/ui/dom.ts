@@ -21,7 +21,3 @@ export function getElement<T extends Element>(selector: string, root: ParentNode
   if (!element) throw new Error(`No se encontró el elemento: ${selector}`)
   return element
 }
-
-export function capitalize(text: string): string {
-  return text.charAt(0).toUpperCase() + text.slice(1)
-}

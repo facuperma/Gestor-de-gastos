@@ -13,7 +13,7 @@ Aplicación web para registrar ingresos y gastos personales, ver el balance y an
 - Desglose de gastos por categoría
 - Filtros por tipo y por mes
 - Persistencia en el navegador (`localStorage`)
-- Modo oscuro automático y diseño responsive
+- Tema oscuro con acento azul marino y diseño responsive
 
 ## Stack
 

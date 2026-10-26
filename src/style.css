@@ -2,69 +2,34 @@
    Tokens de diseño
    ========================================================================== */
 
+/* Tema oscuro único, con acento azul marino */
 :root {
-  --bg: #f5f6fa;
-  --surface: #ffffff;
-  --surface-2: #f0f2f7;
-  --text: #0f172a;
-  --muted: #64748b;
-  --border: #e4e7ef;
-  --primary: #5048e5;
-  --primary-hover: #4038d0;
-  --income: #16a34a;
-  --expense: #e11d48;
-  --danger: #dc2626;
-  --hero-from: #4f46e5;
-  --hero-to: #7c3aed;
-  --shadow: 0 1px 2px rgb(15 23 42 / 0.04), 0 4px 16px rgb(15 23 42 / 0.06);
+  --bg: #0a0e15;
+  --surface: #111723;
+  --surface-2: #182030;
+  --text: #e4e8ef;
+  --muted: #8b96a9;
+  --border: #222c3d;
+  /* Acento claro: foco, links y bordes activos */
+  --primary: #7896c0;
+  /* Fondo del botón principal */
+  --button: #2c4467;
+  --button-hover: #36517a;
+  --income: #4ade80;
+  --expense: #fb7185;
+  --danger: #f87171;
+  --hero-from: #1d3150;
+  --hero-to: #14233b;
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 8px 24px rgb(0 0 0 / 0.25);
   --radius: 16px;
   --radius-sm: 10px;
 
-  /* Colores por categoría (usados en el gráfico, la leyenda y los íconos) */
-  --cat-comida: #f59e0b;
-  --cat-transporte: #3b82f6;
-  --cat-vivienda: #8b5cf6;
-  --cat-servicios: #06b6d4;
-  --cat-ocio: #ec4899;
-  --cat-salud: #10b981;
-  --cat-otros: #94a3b8;
-  --cat-sueldo: #22c55e;
-  --cat-freelance: #6366f1;
-  --cat-inversiones: #eab308;
+  /* Color de categoría por defecto; cada elemento lo pisa con `--cat`
+     desde TypeScript (ver src/models/categories.ts). */
+  --cat: #94a3b8;
 
-  color-scheme: light;
+  color-scheme: dark;
 }
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0b0d13;
-    --surface: #141720;
-    --surface-2: #1c202c;
-    --text: #e7e9ef;
-    --muted: #8e96aa;
-    --border: #252a38;
-    --primary: #7c7cff;
-    --primary-hover: #9797ff;
-    --income: #4ade80;
-    --expense: #fb7185;
-    --danger: #f87171;
-    --hero-from: #4338ca;
-    --hero-to: #6d28d9;
-    --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 8px 24px rgb(0 0 0 / 0.25);
-    color-scheme: dark;
-  }
-}
-
-[data-category='comida'] { --cat: var(--cat-comida); }
-[data-category='transporte'] { --cat: var(--cat-transporte); }
-[data-category='vivienda'] { --cat: var(--cat-vivienda); }
-[data-category='servicios'] { --cat: var(--cat-servicios); }
-[data-category='ocio'] { --cat: var(--cat-ocio); }
-[data-category='salud'] { --cat: var(--cat-salud); }
-[data-category='otros'] { --cat: var(--cat-otros); }
-[data-category='sueldo'] { --cat: var(--cat-sueldo); }
-[data-category='freelance'] { --cat: var(--cat-freelance); }
-[data-category='inversiones'] { --cat: var(--cat-inversiones); }
 
 /* ==========================================================================
    Base
@@ -289,7 +254,8 @@ input, select, button {
   border-radius: var(--radius);
   color: #fff;
   background: linear-gradient(135deg, var(--hero-from), var(--hero-to));
-  box-shadow: 0 12px 32px -12px rgb(79 70 229 / 0.55);
+  border: 1px solid rgb(120 150 192 / 0.18);
+  box-shadow: 0 12px 32px -14px rgb(0 0 0 / 0.6);
 }
 
 /* Círculos decorativos de fondo */
@@ -298,7 +264,7 @@ input, select, button {
   content: '';
   position: absolute;
   border-radius: 50%;
-  background: rgb(255 255 255 / 0.08);
+  background: rgb(255 255 255 / 0.04);
   pointer-events: none;
 }
 
@@ -496,7 +462,7 @@ input, select, button {
 
 .segmented input:checked + span {
   background: var(--surface);
-  box-shadow: 0 1px 3px rgb(15 23 42 / 0.12);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.4);
 }
 
 .segmented input[value='expense']:checked + span { color: var(--expense); }
@@ -526,7 +492,7 @@ input, select, button {
   height: 44px;
   border: 0;
   border-radius: var(--radius-sm);
-  background: var(--primary);
+  background: var(--button);
   color: #fff;
   font-weight: 600;
   cursor: pointer;
@@ -534,7 +500,7 @@ input, select, button {
 }
 
 .button:hover {
-  background: var(--primary-hover);
+  background: var(--button-hover);
 }
 
 .button:active {
@@ -604,6 +570,11 @@ input, select, button {
   height: 10px;
   border-radius: 3px;
   background: var(--cat);
+}
+
+.legend__name {
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .legend__percent {
@@ -681,9 +652,10 @@ input, select, button {
   width: 40px;
   height: 40px;
   border-radius: 12px;
-  font-weight: 700;
-  color: var(--cat);
-  background: color-mix(in srgb, var(--cat) 15%, transparent);
+  font-size: 1.15rem;
+  line-height: 1;
+  background: color-mix(in srgb, var(--cat) 18%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--cat) 35%, transparent);
 }
 
 .transaction__info {
