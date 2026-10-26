@@ -4,10 +4,77 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>proyecto-ts</title>
+    <meta name="description" content="Gestor de gastos personales hecho con TypeScript" />
+    <title>Gestor de gastos</title>
   </head>
   <body>
-    <div id="app"></div>
+    <header class="app-header">
+      <h1>Gestor de gastos</h1>
+    </header>
+
+    <main class="layout">
+      <section class="card" aria-labelledby="summary-title">
+        <h2 id="summary-title">Resumen</h2>
+        <div id="summary"></div>
+      </section>
+
+      <section class="card" aria-labelledby="form-title">
+        <h2 id="form-title">Nueva transacción</h2>
+        <form id="transaction-form" novalidate>
+          <fieldset class="type-toggle">
+            <legend>Tipo</legend>
+            <label><input type="radio" name="type" value="expense" checked /> Gasto</label>
+            <label><input type="radio" name="type" value="income" /> Ingreso</label>
+          </fieldset>
+
+          <label>
+            Descripción
+            <input name="description" type="text" maxlength="80" required />
+          </label>
+
+          <div class="row">
+            <label>
+              Monto
+              <input name="amount" type="text" inputmode="decimal" placeholder="0,00" required />
+            </label>
+            <label>
+              Fecha
+              <input name="date" type="date" required />
+            </label>
+          </div>
+
+          <label>
+            Categoría
+            <select name="category"></select>
+          </label>
+
+          <ul class="form-errors" role="alert" aria-live="polite"></ul>
+          <button type="submit">Agregar</button>
+        </form>
+      </section>
+
+      <section class="card card--wide" aria-labelledby="list-title">
+        <div class="list-header">
+          <h2 id="list-title">Movimientos</h2>
+          <form id="filters" class="filters">
+            <label>
+              Tipo
+              <select name="type">
+                <option value="all">Todos</option>
+                <option value="expense">Gastos</option>
+                <option value="income">Ingresos</option>
+              </select>
+            </label>
+            <label>
+              Mes
+              <input name="month" type="month" />
+            </label>
+          </form>
+        </div>
+        <div id="transaction-list"></div>
+      </section>
+    </main>
+
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
