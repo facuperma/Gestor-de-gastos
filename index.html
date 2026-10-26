@@ -5,75 +5,117 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Gestor de gastos personales hecho con TypeScript" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <title>Gestor de gastos</title>
   </head>
   <body>
-    <header class="app-header">
-      <h1>Gestor de gastos</h1>
+    <header class="topbar">
+      <div class="topbar__inner">
+        <a class="brand" href="/">
+          <span class="brand__logo" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0 0 4h14a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2" />
+              <path d="M3 5v14a2 2 0 0 0 2 2h14a1 1 0 0 0 1-1v-4" />
+            </svg>
+          </span>
+          <span>
+            <span class="brand__name">Gestor de gastos</span>
+            <span class="brand__tagline">Tus finanzas, claras</span>
+          </span>
+        </a>
+        <a
+          class="icon-link"
+          href="https://github.com/facuperma/Gestor-de-gastos"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Ver el código en GitHub"
+        >
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.33-1.29-1.69-1.29-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.8 1.19 1.83 1.19 3.09 0 4.42-2.7 5.39-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z" />
+          </svg>
+        </a>
+      </div>
     </header>
 
     <main class="layout">
-      <section class="card" aria-labelledby="summary-title">
-        <h2 id="summary-title">Resumen</h2>
-        <div id="summary"></div>
-      </section>
+      <section class="hero" id="balance" aria-label="Balance"></section>
 
-      <section class="card" aria-labelledby="form-title">
-        <h2 id="form-title">Nueva transacción</h2>
-        <form id="transaction-form" novalidate>
-          <fieldset class="type-toggle">
-            <legend>Tipo</legend>
-            <label><input type="radio" name="type" value="expense" checked /> Gasto</label>
-            <label><input type="radio" name="type" value="income" /> Ingreso</label>
-          </fieldset>
-
-          <label>
-            Descripción
-            <input name="description" type="text" maxlength="80" required />
-          </label>
-
-          <div class="row">
+      <section class="card card--form" aria-labelledby="form-title">
+        <h2 id="form-title" class="card__title">Nueva transacción</h2>
+        <form id="transaction-form" class="form" novalidate>
+          <fieldset class="segmented">
+            <legend class="sr-only">Tipo</legend>
             <label>
-              Monto
-              <input name="amount" type="text" inputmode="decimal" placeholder="0,00" required />
+              <input type="radio" name="type" value="expense" checked />
+              <span>Gasto</span>
             </label>
             <label>
-              Fecha
+              <input type="radio" name="type" value="income" />
+              <span>Ingreso</span>
+            </label>
+          </fieldset>
+
+          <label class="field">
+            <span class="field__label">Descripción</span>
+            <input name="description" type="text" maxlength="80" placeholder="Ej: Supermercado" required />
+          </label>
+
+          <label class="field">
+            <span class="field__label">Monto</span>
+            <span class="input-prefix">
+              <span aria-hidden="true">$</span>
+              <input name="amount" type="text" inputmode="decimal" placeholder="0,00" required />
+            </span>
+          </label>
+
+          <div class="form__row">
+            <label class="field">
+              <span class="field__label">Categoría</span>
+              <select name="category"></select>
+            </label>
+            <label class="field">
+              <span class="field__label">Fecha</span>
               <input name="date" type="date" required />
             </label>
           </div>
 
-          <label>
-            Categoría
-            <select name="category"></select>
-          </label>
-
           <ul class="form-errors" role="alert" aria-live="polite"></ul>
-          <button type="submit">Agregar</button>
+          <button type="submit" class="button">Agregar transacción</button>
         </form>
       </section>
 
-      <section class="card card--wide" aria-labelledby="list-title">
-        <div class="list-header">
-          <h2 id="list-title">Movimientos</h2>
+      <section class="card card--categories" aria-labelledby="categories-title">
+        <h2 id="categories-title" class="card__title">Gastos por categoría</h2>
+        <div id="categories"></div>
+      </section>
+
+      <section class="card card--list" aria-labelledby="list-title">
+        <div class="card__header">
+          <h2 id="list-title" class="card__title">Movimientos</h2>
           <form id="filters" class="filters">
-            <label>
-              Tipo
-              <select name="type">
-                <option value="all">Todos</option>
-                <option value="expense">Gastos</option>
-                <option value="income">Ingresos</option>
-              </select>
-            </label>
-            <label>
-              Mes
-              <input name="month" type="month" />
-            </label>
+            <label class="sr-only" for="filter-type">Filtrar por tipo</label>
+            <select id="filter-type" name="type">
+              <option value="all">Todos</option>
+              <option value="expense">Gastos</option>
+              <option value="income">Ingresos</option>
+            </select>
+            <label class="sr-only" for="filter-month">Filtrar por mes</label>
+            <input id="filter-month" name="month" type="month" />
           </form>
         </div>
         <div id="transaction-list"></div>
       </section>
     </main>
+
+    <footer class="footer">
+      Hecho con TypeScript, HTML y CSS ·
+      <a href="https://github.com/facuperma/Gestor-de-gastos" target="_blank" rel="noopener noreferrer">Ver código</a>
+    </footer>
 
     <script type="module" src="/src/main.ts"></script>
   </body>

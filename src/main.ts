@@ -9,13 +9,14 @@ import {
 } from './services/transactions.ts'
 import { LocalStorageRepository } from './storage/repository.ts'
 import { getElement } from './ui/dom.ts'
-import { renderSummary } from './ui/summary.ts'
+import { renderBalance, renderCategories } from './ui/summary.ts'
 import { setupTransactionForm } from './ui/transaction-form.ts'
 import { onDeleteClick, renderTransactionList } from './ui/transaction-list.ts'
 
 const repository = new LocalStorageRepository<Transaction>('gestor-gastos:transactions', isTransaction)
 
-const summaryEl = getElement<HTMLElement>('#summary')
+const balanceEl = getElement<HTMLElement>('#balance')
+const categoriesEl = getElement<HTMLElement>('#categories')
 const listEl = getElement<HTMLElement>('#transaction-list')
 const formEl = getElement<HTMLFormElement>('#transaction-form')
 const filtersEl = getElement<HTMLFormElement>('#filters')
@@ -30,7 +31,8 @@ function readFilter(): TransactionFilter {
 
 function render(): void {
   const visible = filterTransactions(repository.getAll(), readFilter())
-  renderSummary(summaryEl, getBalance(visible), expensesByCategory(visible))
+  renderBalance(balanceEl, getBalance(visible))
+  renderCategories(categoriesEl, expensesByCategory(visible))
   renderTransactionList(listEl, sortByDateDesc(visible))
 }
 
